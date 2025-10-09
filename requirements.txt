@@ -1,1 +1,2 @@
 click
+openai==2.2.0
