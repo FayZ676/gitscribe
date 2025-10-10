@@ -1,2 +1,2 @@
-click
+click==8.3.0
 pyinstaller==6.16.0

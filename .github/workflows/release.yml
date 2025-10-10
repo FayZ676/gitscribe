@@ -1,0 +1,85 @@
+name: Build and Release Binaries
+
+on:
+  push:
+    tags:
+      - "v*" # Triggers on version tags like v1.0.0, v2.1.3, etc.
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }} binary
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            artifact_name: commit2content
+            asset_name: commit2content-macos
+          - os: ubuntu-latest
+            artifact_name: commit2content
+            asset_name: commit2content-linux
+          - os: windows-latest
+            artifact_name: commit2content.exe
+            asset_name: commit2content-windows.exe
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Build binary with PyInstaller
+        run: pyinstaller --onefile --name commit2content cli.py
+
+      - name: Rename binary for release
+        shell: bash
+        run: |
+          mkdir -p release
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            mv dist/commit2content.exe release/${{ matrix.asset_name }}
+          else
+            mv dist/commit2content release/${{ matrix.asset_name }}
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset_name }}
+          path: release/${{ matrix.asset_name }}
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/commit2content-macos/commit2content-macos
+            artifacts/commit2content-linux/commit2content-linux
+            artifacts/commit2content-windows.exe/commit2content-windows.exe
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
