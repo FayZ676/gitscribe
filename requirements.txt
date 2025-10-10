@@ -1,1 +1,2 @@
 click
+pyinstaller==6.16.0
