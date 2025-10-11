@@ -84,5 +84,31 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
+          body: |
+            ## Installation
+
+            ### macOS
+            ```bash
+            curl -L https://github.com/FayZ676/commit2content/releases/latest/download/commit2content-macos -o /tmp/commit2content && chmod +x /tmp/commit2content && sudo mv /tmp/commit2content /usr/local/bin/
+            ```
+
+            ### Linux
+            ```bash
+            curl -L https://github.com/FayZ676/commit2content/releases/latest/download/commit2content-linux -o /tmp/commit2content && chmod +x /tmp/commit2content && sudo mv /tmp/commit2content /usr/local/bin/
+            ```
+
+            ### Windows (PowerShell)
+            ```powershell
+            Invoke-WebRequest -Uri "https://github.com/FayZ676/commit2content/releases/latest/download/commit2content-windows.exe" -OutFile "$env:USERPROFILE\commit2content.exe"
+            # Then add to PATH or move to a directory in PATH
+            ```
+
+            ### Manual Installation
+            Download the appropriate binary for your platform from the assets below, make it executable, and move it to a directory in your PATH.
+
+            ## Usage
+            ```bash
+            commit2content --help
+            ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
