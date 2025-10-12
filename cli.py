@@ -69,20 +69,20 @@ def run_git_command(cmd):
 
 
 @click.group()
-def cli():
-    """Tool to convert commit messages to easily readable and shareable text content."""
+def gitscribe():
+    """GitScribe - Transform your git history into shareable content."""
 
 
 # TODO: Add tests.
-@cli.command()
+@gitscribe.command()
 @click.option("--last", default=1, help="Number of commits to fetch (default: 1)")
 @click.option("--since", default=None, help="Include commits since date (YYYY-MM-DD)")
 @click.option("--until", default=None, help="Include commits until date (YYYY-MM-DD)")
-def commit2content(last, since, until):
-    """Fetch git commits and display their content."""
+def content(last, since, until):
+    """Generate content from git commits."""
     cmd = build_git_log_command(last, since, until)
     run_git_command(cmd)
 
 
 if __name__ == "__main__":
-    cli()
+    gitscribe()

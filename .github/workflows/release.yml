@@ -16,14 +16,14 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            artifact_name: commit2content
-            asset_name: commit2content-macos
+            artifact_name: gitscribe
+            asset_name: gitscribe-macos
           - os: ubuntu-latest
-            artifact_name: commit2content
-            asset_name: commit2content-linux
+            artifact_name: gitscribe
+            asset_name: gitscribe-linux
           - os: windows-latest
-            artifact_name: commit2content.exe
-            asset_name: commit2content-windows.exe
+            artifact_name: gitscribe.exe
+            asset_name: gitscribe-windows.exe
 
     steps:
       - name: Checkout code
@@ -39,16 +39,16 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build binary with PyInstaller
-        run: pyinstaller --onefile --name commit2content cli.py
+        run: pyinstaller --onefile --name gitscribe cli.py
 
       - name: Rename binary for release
         shell: bash
         run: |
           mkdir -p release
           if [ "${{ runner.os }}" == "Windows" ]; then
-            mv dist/commit2content.exe release/${{ matrix.asset_name }}
+            mv dist/gitscribe.exe release/${{ matrix.asset_name }}
           else
-            mv dist/commit2content release/${{ matrix.asset_name }}
+            mv dist/gitscribe release/${{ matrix.asset_name }}
           fi
 
       - name: Upload artifact
@@ -80,9 +80,9 @@ jobs:
           repository: FayZ676/commit2content-releases
           token: ${{ secrets.RELEASES_REPO_TOKEN }}
           files: |
-            artifacts/commit2content-macos/commit2content-macos
-            artifacts/commit2content-linux/commit2content-linux
-            artifacts/commit2content-windows.exe/commit2content-windows.exe
+            artifacts/gitscribe-macos/gitscribe-macos
+            artifacts/gitscribe-linux/gitscribe-linux
+            artifacts/gitscribe-windows.exe/gitscribe-windows.exe
           draft: false
           prerelease: false
           generate_release_notes: false
@@ -91,17 +91,17 @@ jobs:
 
             ### macOS
             ```bash
-            curl -L https://github.com/FayZ676/commit2content-releases/releases/latest/download/commit2content-macos -o /tmp/commit2content && chmod +x /tmp/commit2content && sudo mv /tmp/commit2content /usr/local/bin/
+            curl -L https://github.com/FayZ676/commit2content-releases/releases/latest/download/gitscribe-macos -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
             ```
 
             ### Linux
             ```bash
-            curl -L https://github.com/FayZ676/commit2content-releases/releases/latest/download/commit2content-linux -o /tmp/commit2content && chmod +x /tmp/commit2content && sudo mv /tmp/commit2content /usr/local/bin/
+            curl -L https://github.com/FayZ676/commit2content-releases/releases/latest/download/gitscribe-linux -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
             ```
 
             ### Windows (PowerShell)
             ```powershell
-            Invoke-WebRequest -Uri "https://github.com/FayZ676/commit2content-releases/releases/latest/download/commit2content-windows.exe" -OutFile "$env:USERPROFILE\commit2content.exe"
+            Invoke-WebRequest -Uri "https://github.com/FayZ676/commit2content-releases/releases/latest/download/gitscribe-windows.exe" -OutFile "$env:USERPROFILE\gitscribe.exe"
             # Then add to PATH or move to a directory in PATH
             ```
 
@@ -110,7 +110,7 @@ jobs:
 
             ## Usage
             ```bash
-            commit2content --help
+            gitscribe content --help
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}

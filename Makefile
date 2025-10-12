@@ -3,14 +3,14 @@ install:
 	source .venv/bin/activate && pip install -r requirements.txt
 
 build_binary:
-	pyinstaller --onefile --name commit2content cli.py
+	pyinstaller --onefile --name gitscribe cli.py
 
 test_binary:
-	./dist/commit2content commit2content
+	./dist/gitscribe content --last 1
 
 install_binary:
-	sudo cp dist/commit2content /usr/local/bin/
-	sudo chmod +x /usr/local/bin/commit2content
+	sudo cp dist/gitscribe /usr/local/bin/
+	sudo chmod +x /usr/local/bin/gitscribe
 
 uninstall_binary:
-	sudo rm -f /usr/local/bin/commit2content
+	sudo rm -f /usr/local/bin/gitscribe

@@ -1,51 +1,43 @@
-# commit2content
+# GitScribe
 
-Tool to convert commit messages to easily readable and shareable text content.
+Transform your git history into shareable content for documentation, marketing, and more.
 
 ## Installation
 
-### Quick Install (macOS/Linux)
+For installation instructions, see the [Releases page](https://github.com/FayZ676/commit2content-releases/releases/latest).
+
+## Development
+
+### Setup
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/FayZ676/commit2content/main/install.sh | bash
+# Clone the repository
+git clone https://github.com/FayZ676/commit2content.git
+cd commit2content
+
+# Create and activate virtual environment and install dependencies
+make install
 ```
 
-#### macOS
+### Running Locally
 
 ```bash
-# Download
-curl -L https://github.com/FayZ676/commit2content/releases/latest/download/commit2content-macos -o commit2content
-
-# Make executable
-chmod +x commit2content
-
-# Move to PATH
-sudo mv commit2content /usr/local/bin/
+# Run the CLI directly
+python cli.py --help
+python cli.py content --last 5
 ```
 
-#### Linux
+### Building
 
 ```bash
-# Download
-curl -L https://github.com/FayZ676/commit2content/releases/latest/download/commit2content-linux -o commit2content
+# Build the binary
+make build_binary
 
-# Make executable
-chmod +x commit2content
+# Test the binary
+./dist/gitscribe content --last 5
 
-# Move to PATH
-sudo mv commit2content /usr/local/bin/
-```
-
-#### Windows
-
-1. Download `commit2content-windows.exe` from the [Releases page](https://github.com/FayZ676/commit2content/releases)
-2. Move to a directory in your PATH (e.g., `C:\Windows\System32` or add a custom directory to PATH)
-
-## Usage
-
-```bash
-# Show help
-commit2content --help
+# Install locally (optional)
+make install_binary
 ```
 
 ## Creating a Release
@@ -60,9 +52,5 @@ To create a new release with automated binary builds:
    ```
 3. GitHub Actions will automatically:
    - Build binaries for macOS, Linux, and Windows
-   - Create a GitHub Release
+   - Create a GitHub Release in the [public releases repo](https://github.com/FayZ676/commit2content-releases)
    - Attach all binaries to the release
-
-## License
-
-MIT
