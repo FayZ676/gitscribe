@@ -108,6 +108,19 @@ jobs:
             ### Manual Installation
             Download the appropriate binary for your platform from the assets below, make it executable, and move it to a directory in your PATH.
 
+            ## Uninstall
+
+            ### macOS/Linux
+            ```bash
+            sudo rm /usr/local/bin/gitscribe
+            ```
+
+            ### Windows
+            ```powershell
+            Remove-Item "$env:USERPROFILE\gitscribe.exe"
+            # Or remove from wherever you placed it in your PATH
+            ```
+
             ## Usage
             ```bash
             gitscribe content --help
