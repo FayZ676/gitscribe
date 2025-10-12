@@ -2,6 +2,11 @@ install:
 	python -m venv .venv
 	source .venv/bin/activate && pip install -r requirements.txt
 
+test:
+	python cli.py content
+
+# Binary Commands
+
 build_binary:
 	pyinstaller --onefile --name gitscribe cli.py
 

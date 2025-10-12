@@ -10,4 +10,4 @@ class OpenAILLM:
             model="gpt-4.1",
             input=prompt,
         )
-        return response.output[0].content[0].text
+        return str(response.output[0].content[0].text)  # type: ignore

@@ -98,12 +98,12 @@ def content(last, since, until):
         click.echo("No commits found matching the criteria.")
         return
 
-    click.echo(commits)
+    click.echo(f"💬 Commits:\n{commits}")
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
         prompt=prompt.substitute(commits=commits)
     )
-    click.echo(response)
+    click.echo(f"\n📝 Generated Content:\n{response}")
 
 
 prompt = Template(
