@@ -1,8 +1,12 @@
 import sys
 import subprocess
 from datetime import datetime
+from string import Template
 
 import click
+
+from config import require_api_key, set_api_key, prompt_for_openai_api_key
+from llm import OpenAILLM
 
 
 def validate_value_type(value, accept_type):
@@ -45,14 +49,14 @@ def build_git_log_command(last, since, until):
     return cmd
 
 
-def run_git_command(cmd):
+def run_git_command(cmd) -> str:
     """Execute a git command and handle errors."""
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         if result.stdout:
-            click.echo(result.stdout.strip())
+            return result.stdout.strip()
         else:
-            click.echo("No commits found matching the criteria.")
+            return ""
 
     except subprocess.CalledProcessError as e:
         click.echo(f"Error running git command: {e.stderr.strip()}", err=True)
@@ -73,7 +77,14 @@ def gitscribe():
     """GitScribe - Transform your git history into shareable content."""
 
 
-# TODO: Add tests.
+@gitscribe.command()
+def configure():
+    """Configure GitScribe settings (API keys, etc.)."""
+    api_key = prompt_for_openai_api_key()
+    set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
+    click.echo("\n✅ Configuration complete! You can now use gitscribe content.")
+
+
 @gitscribe.command()
 @click.option("--last", default=1, help="Number of commits to fetch (default: 1)")
 @click.option("--since", default=None, help="Include commits since date (YYYY-MM-DD)")
@@ -81,7 +92,27 @@ def gitscribe():
 def content(last, since, until):
     """Generate content from git commits."""
     cmd = build_git_log_command(last, since, until)
-    run_git_command(cmd)
+    commits = run_git_command(cmd)
+
+    if not commits:
+        click.echo("No commits found matching the criteria.")
+        return
+
+    click.echo(commits)
+    api_key = require_api_key("OPENAI_API_KEY")
+    response = OpenAILLM(api_key=api_key).generate(
+        prompt=prompt.substitute(commits=commits)
+    )
+    click.echo(response)
+
+
+prompt = Template(
+    """
+$commits
+                  
+Summarize the above commits.
+"""
+)
 
 
 if __name__ == "__main__":
