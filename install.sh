@@ -8,11 +8,11 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO="FayZ676/commit2content"
-BINARY_NAME="commit2content"
+REPO="FayZ676/gitscribe"
+BINARY_NAME="gitscribe"
 INSTALL_DIR="/usr/local/bin"
 
-echo "Installing commit2content..."
+echo "Installing gitscribe..."
 
 # Detect OS and architecture
 OS="$(uname -s)"
