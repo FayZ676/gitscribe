@@ -3,7 +3,7 @@ install:
 	source .venv/bin/activate && pip install -r requirements.txt
 
 test:
-	python cli.py content
+	python cli.py content --style="style.txt"
 
 # Binary Commands
 

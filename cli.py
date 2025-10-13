@@ -72,6 +72,11 @@ def run_git_command(cmd) -> str:
         sys.exit(1)
 
 
+def get_style(file_path: str) -> str:
+    with open(file_path, "r") as f:
+        return f.read()
+
+
 @click.group()
 def gitscribe():
     """GitScribe - Transform your git history into shareable content."""
@@ -82,17 +87,25 @@ def configure():
     """Configure GitScribe settings (API keys, etc.)."""
     api_key = prompt_for_openai_api_key()
     set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
-    click.echo("\n✅ Configuration complete! You can now use gitscribe content.")
+    click.echo(
+        "\n✅ Configuration complete! You can now use the command `gitscribe content`."
+    )
 
 
 @gitscribe.command()
 @click.option("--last", default=1, help="Number of commits to fetch (default: 1)")
 @click.option("--since", default=None, help="Include commits since date (YYYY-MM-DD)")
 @click.option("--until", default=None, help="Include commits until date (YYYY-MM-DD)")
-def content(last, since, until):
+@click.option(
+    "--style",
+    default=None,
+    help="Style file for the LLM to reference when generating content",
+)
+def content(last, since, until, style):
     """Generate content from git commits."""
     cmd = build_git_log_command(last, since, until)
     commits = run_git_command(cmd)
+    style = get_style(file_path=style)
 
     if not commits:
         click.echo("No commits found matching the criteria.")
@@ -101,16 +114,23 @@ def content(last, since, until):
     click.echo(f"💬 Commits:\n{commits}")
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
-        prompt=prompt.substitute(commits=commits)
+        prompt=prompt.substitute(commits=commits, style=style)
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
 
 
 prompt = Template(
     """
+## Instructions:
+Your job is to transform commit messages into meaningful content in the style of other provided content.
+    
+## Commits:
 $commits
-                  
-Summarize the above commits.
+
+## Style References
+$style
+
+Return only the transformed text content and nothing else.
 """
 )
 
