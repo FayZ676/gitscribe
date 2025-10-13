@@ -72,9 +72,21 @@ def run_git_command(cmd) -> str:
         sys.exit(1)
 
 
-def get_style(file_path: str) -> str:
-    with open(file_path, "r") as f:
-        return f.read()
+def get_style(file_path: str | None = None) -> str:
+    """Get style content from file. Returns empty string if file doesn't exist."""
+    if file_path is None:
+        file_path = "content_style.txt"
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return ""
+    except (IOError, OSError) as e:
+        click.echo(
+            f"Warning: Could not read style file '{file_path}': {str(e)}", err=True
+        )
+        return ""
 
 
 @click.group()
@@ -99,13 +111,13 @@ def configure():
 @click.option(
     "--style",
     default=None,
-    help="Style file for the LLM to reference when generating content",
+    help="Style file for the LLM to reference when generating content (default: content_style.txt)",
 )
 def content(last, since, until, style):
     """Generate content from git commits."""
     cmd = build_git_log_command(last, since, until)
     commits = run_git_command(cmd)
-    style = get_style(file_path=style)
+    style_content = get_style(file_path=style)
 
     if not commits:
         click.echo("No commits found matching the criteria.")
@@ -114,7 +126,7 @@ def content(last, since, until, style):
     click.echo(f"💬 Commits:\n{commits}")
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
-        prompt=prompt.substitute(commits=commits, style=style)
+        prompt=prompt.substitute(commits=commits, style=style_content)
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
 
