@@ -1,0 +1,11 @@
+Follow conventional commit format:
+- Use imperative mood (e.g., "Add feature" not "Added feature")
+- Keep the first line concise (50 chars or less)
+- Start with a type prefix: feat:, fix:, docs:, style:, refactor:, test:, chore:
+- If needed, add a more detailed explanation after a blank line
+
+Examples:
+feat: Add user authentication with OAuth2
+fix: Resolve memory leak in data processing
+docs: Update API documentation for v2
+refactor: Simplify validation logic

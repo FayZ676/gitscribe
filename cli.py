@@ -114,7 +114,7 @@ def configure():
     api_key = prompt_for_openai_api_key()
     set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
     click.echo(
-        "\n✅ Configuration complete! You can now use the command `gitscribe content`."
+        "\n✅ Configuration complete! You can now use the commands `gitscribe content` and `gitscribe message`."
     )
 
 
