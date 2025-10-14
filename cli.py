@@ -147,7 +147,6 @@ def content(last, since, until, style, output):
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
     
-    # Save to file
     output_file = output if output else "gitscribe_output.txt"
     save_content_to_file(response, output_file)
 
