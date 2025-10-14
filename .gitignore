@@ -6,3 +6,4 @@ dist/
 __pycache__/
 
 gitscribe.spec
+gitscribe_output.txt

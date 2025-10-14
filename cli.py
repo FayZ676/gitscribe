@@ -82,11 +82,13 @@ def get_style(file_path: str | None = None) -> str:
             return f.read()
     except FileNotFoundError:
         return ""
-    except (IOError, OSError) as e:
-        click.echo(
-            f"Warning: Could not read style file '{file_path}': {str(e)}", err=True
-        )
-        return ""
+
+
+def save_content_to_file(content: str, file_path: str) -> None:
+    """Save generated content to a file."""
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    click.echo(f"\n✅ Content saved to: {file_path}")
 
 
 @click.group()
@@ -113,7 +115,13 @@ def configure():
     default=None,
     help="Style file for the LLM to reference when generating content (default: content_style.txt)",
 )
-def content(last, since, until, style):
+@click.option(
+    "--output",
+    "-o",
+    default=None,
+    help="Output file path to save generated content (default: gitscribe_output.txt)",
+)
+def content(last, since, until, style, output):
     """Generate content from git commits."""
     cmd = build_git_log_command(last, since, until)
     commits = run_git_command(cmd)
@@ -129,6 +137,9 @@ def content(last, since, until, style):
         prompt=prompt.substitute(commits=commits, style=style_content)
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
+    
+    output_file = output if output else "gitscribe_output.txt"
+    save_content_to_file(response, output_file)
 
 
 prompt = Template(
