@@ -82,22 +82,13 @@ def get_style(file_path: str | None = None) -> str:
             return f.read()
     except FileNotFoundError:
         return ""
-    except (IOError, OSError) as e:
-        click.echo(
-            f"Warning: Could not read style file '{file_path}': {str(e)}", err=True
-        )
-        return ""
 
 
 def save_content_to_file(content: str, file_path: str) -> None:
     """Save generated content to a file."""
-    try:
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        click.echo(f"\n✅ Content saved to: {file_path}")
-    except (IOError, OSError) as e:
-        click.echo(f"Error: Could not save to file '{file_path}': {str(e)}", err=True)
-        sys.exit(1)
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+    click.echo(f"\n✅ Content saved to: {file_path}")
 
 
 @click.group()
