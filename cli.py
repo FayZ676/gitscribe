@@ -74,13 +74,11 @@ def run_git_command(cmd) -> str:
 
 def get_git_diff() -> str:
     """Get git diff of staged changes, or all changes if nothing is staged."""
-    # First, check if there are staged changes
     staged_diff = run_git_command(["git", "diff", "--cached"])
     
     if staged_diff:
         return staged_diff
     
-    # If no staged changes, get all unstaged changes
     return run_git_command(["git", "diff"])
 
 
