@@ -72,11 +72,21 @@ def run_git_command(cmd) -> str:
         sys.exit(1)
 
 
-def get_style(file_path: str | None = None) -> str:
+def get_git_diff() -> str:
+    """Get git diff of staged changes, or all changes if nothing is staged."""
+    staged_diff = run_git_command(["git", "diff", "--cached"])
+    
+    if staged_diff:
+        return staged_diff
+    
+    return run_git_command(["git", "diff"])
+
+
+def get_style(file_path: str | None = None, default_file: str = "content_style.txt") -> str:
     """Get style content from file. Returns empty string if file doesn't exist."""
     if file_path is None:
-        file_path = "content_style.txt"
-
+        file_path = default_file
+        
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
@@ -102,7 +112,7 @@ def configure():
     api_key = prompt_for_openai_api_key()
     set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
     click.echo(
-        "\n✅ Configuration complete! You can now use the command `gitscribe content`."
+        "\n✅ Configuration complete! You can now use the commands `gitscribe content` and `gitscribe message`."
     )
 
 
@@ -142,6 +152,29 @@ def content(last, since, until, style, output):
     save_content_to_file(response, output_file)
 
 
+@gitscribe.command()
+@click.option(
+    "--style",
+    default=None,
+    help="Style file for the LLM to reference when generating commit messages (default: message_style.txt)",
+)
+def message(style):
+    """Generate a commit message from git diff."""
+    diff = get_git_diff()
+    
+    if not diff:
+        click.echo("No changes found. Make some changes or stage them with 'git add' first.")
+        return
+    
+    click.echo("📊 Analyzing changes...")
+    style_content = get_style(file_path=style, default_file="message_style.txt")
+    api_key = require_api_key("OPENAI_API_KEY")
+    response = OpenAILLM(api_key=api_key).generate(
+        prompt=message_prompt.substitute(diff=diff, style=style_content)
+    )
+    click.echo(f"\n💬 Generated Commit Message:\n{response}")
+
+
 prompt = Template(
     """
 ## Instructions:
@@ -154,6 +187,22 @@ $commits
 $style
 
 Return only the transformed text content and nothing else.
+"""
+)
+
+
+message_prompt = Template(
+    """
+## Instructions:
+Your job is to generate a clear, concise commit message based on the git diff provided below.
+The commit message should follow best practices and accurately describe the changes made.
+
+$style
+
+## Git Diff:
+$diff
+
+Return only the commit message text and nothing else.
 """
 )
 
