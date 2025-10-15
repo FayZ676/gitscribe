@@ -86,7 +86,7 @@ def get_style(file_path: str | None = None, default_file: str = "content_style.t
     """Get style content from file. Returns empty string if file doesn't exist."""
     if file_path is None:
         file_path = default_file
-
+        
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
@@ -168,7 +168,6 @@ def message(style):
     
     click.echo("📊 Analyzing changes...")
     style_content = get_style(file_path=style, default_file="message_style.txt")
-    
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
         prompt=message_prompt.substitute(diff=diff, style=style_content)
