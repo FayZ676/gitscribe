@@ -74,11 +74,9 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R artifacts
 
-      - name: Create Release in Public Repo
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          repository: FayZ676/gitscribe-releases
-          token: ${{ secrets.RELEASES_REPO_TOKEN }}
           files: |
             artifacts/gitscribe-macos/gitscribe-macos
             artifacts/gitscribe-linux/gitscribe-linux
@@ -91,17 +89,17 @@ jobs:
 
             ### macOS
             ```bash
-            curl -L https://github.com/FayZ676/gitscribe-releases/releases/latest/download/gitscribe-macos -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
+            curl -L https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-macos -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
             ```
 
             ### Linux
             ```bash
-            curl -L https://github.com/FayZ676/gitscribe-releases/releases/latest/download/gitscribe-linux -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
+            curl -L https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-linux -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
             ```
 
             ### Windows (PowerShell)
             ```powershell
-            Invoke-WebRequest -Uri "https://github.com/FayZ676/gitscribe-releases/releases/latest/download/gitscribe-windows.exe" -OutFile "$env:USERPROFILE\gitscribe.exe"
+            Invoke-WebRequest -Uri "https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-windows.exe" -OutFile "$env:USERPROFILE\gitscribe.exe"
             # Then add to PATH or move to a directory in PATH
             ```
 
@@ -125,5 +123,3 @@ jobs:
             ```bash
             gitscribe content --help
             ```
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
