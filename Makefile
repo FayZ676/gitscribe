@@ -17,7 +17,9 @@ test_all: test_content test_message
 install_hook:
 	cp hooks/pre-push .git/hooks/pre-push
 	chmod +x .git/hooks/pre-push
-	@echo "✅ Pre-push hook installed successfully!"
+
+uninstall_hook:
+	rm -f .git/hooks/pre-push
 
 # Binary Commands
 
