@@ -1,7 +1,7 @@
 from string import Template
 
 
-content_prompt = Template(
+post_prompt = Template(
     """
 ## Instructions:
 Your job is to transform commit messages into meaningful content in the style of other provided content.
@@ -17,7 +17,7 @@ Return only the transformed text content and nothing else.
 )
 
 
-message_prompt = Template(
+commit_prompt = Template(
     """
 ## Instructions:
 Your job is to generate a clear, concise commit message based on the git diff provided below.

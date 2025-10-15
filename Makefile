@@ -4,13 +4,13 @@ install:
 
 # Testing
 
-test_content:
-	python -m src.cli content --last=5
+test_post:
+	python -m src.cli post --last=5
 
-test_message:
-	python -m src.cli message
+test_commit:
+	python -m src.cli commit
 
-test_all: test_content test_message
+test_all: test_post test_commit
 
 # Hooks
 
@@ -27,8 +27,8 @@ build_binary:
 	pyinstaller --onefile --name gitscribe src/cli.py
 
 test_binary:
-	./dist/gitscribe content --last 1
-	./dist/gitscribe message
+	./dist/gitscribe post --last 1
+	./dist/gitscribe commit
 
 install_binary:
 	sudo cp dist/gitscribe /usr/local/bin/

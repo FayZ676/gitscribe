@@ -24,7 +24,7 @@ make install
 ```bash
 # Run the CLI directly
 python cli.py --help
-python cli.py content --last 5
+python cli.py post --last 5
 ```
 
 ### Building
@@ -34,7 +34,7 @@ python cli.py content --last 5
 make build_binary
 
 # Test the binary
-./dist/gitscribe content --last 5
+./dist/gitscribe post --last 5
 
 # Install locally (optional)
 make install_binary

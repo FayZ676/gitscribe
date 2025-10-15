@@ -121,5 +121,5 @@ jobs:
 
             ## Usage
             ```bash
-            gitscribe content --help
+            gitscribe post --help
             ```
