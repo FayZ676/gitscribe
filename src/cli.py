@@ -5,8 +5,8 @@ from string import Template
 
 import click
 
-from config import require_api_key, set_api_key, prompt_for_openai_api_key
-from llm import OpenAILLM
+from src.config import require_api_key, set_api_key, prompt_for_openai_api_key
+from src.llm import OpenAILLM
 
 
 def validate_value_type(value, accept_type):
@@ -75,23 +75,21 @@ def run_git_command(cmd) -> str:
 def get_git_diff() -> str:
     """Get git diff of staged changes, or all changes if nothing is staged."""
     staged_diff = run_git_command(["git", "diff", "--cached"])
-    
+
     if staged_diff:
         return staged_diff
-    
+
     return run_git_command(["git", "diff"])
 
 
-def get_style(file_path: str | None = None, default_file: str = "content_style.txt") -> str:
+def get_style(file_path: str) -> str:
     """Get style content from file. Returns empty string if file doesn't exist."""
-    if file_path is None:
-        file_path = default_file
-        
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
-        return ""
+        click.echo(f"❌ Style file '{file_path}' not found.", err=True)
+        sys.exit(1)
 
 
 def save_content_to_file(content: str, file_path: str) -> None:
@@ -122,12 +120,11 @@ def configure():
 @click.option("--until", default=None, help="Include commits until date (YYYY-MM-DD)")
 @click.option(
     "--style",
-    default=None,
+    default="styles/content_style.txt",
     help="Style file for the LLM to reference when generating content (default: content_style.txt)",
 )
 @click.option(
     "--output",
-    "-o",
     default=None,
     help="Output file path to save generated content (default: gitscribe_output.txt)",
 )
@@ -138,7 +135,7 @@ def content(last, since, until, style, output):
     style_content = get_style(file_path=style)
 
     if not commits:
-        click.echo("No commits found matching the criteria.")
+        click.echo("❌ No commits found matching the criteria.")
         return
 
     click.echo(f"💬 Commits:\n{commits}")
@@ -147,7 +144,7 @@ def content(last, since, until, style, output):
         prompt=prompt.substitute(commits=commits, style=style_content)
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
-    
+
     output_file = output if output else "gitscribe_output.txt"
     save_content_to_file(response, output_file)
 
@@ -155,24 +152,26 @@ def content(last, since, until, style, output):
 @gitscribe.command()
 @click.option(
     "--style",
-    default=None,
+    default="styles/message_style.txt",
     help="Style file for the LLM to reference when generating commit messages (default: message_style.txt)",
 )
 def message(style):
     """Generate a commit message from git diff."""
     diff = get_git_diff()
-    
+
     if not diff:
-        click.echo("No changes found. Make some changes or stage them with 'git add' first.")
+        click.echo(
+            "❌ No changes found. Make some changes or stage them with 'git add' first."
+        )
         return
-    
+
     click.echo("📊 Analyzing changes...")
-    style_content = get_style(file_path=style, default_file="message_style.txt")
+    style_content = get_style(file_path=style)
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
         prompt=message_prompt.substitute(diff=diff, style=style_content)
     )
-    click.echo(f"\n💬 Generated Commit Message:\n{response}")
+    click.echo(f"\n✅ Generated Commit Message:\n{response}")
 
 
 prompt = Template(

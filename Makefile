@@ -2,8 +2,13 @@ install:
 	python -m venv .venv
 	source .venv/bin/activate && pip install -r requirements.txt
 
-test:
-	python cli.py content
+test_content:
+	python -m src.cli content --last=5
+
+test_message:
+	python -m src.cli message
+
+test_all: test_content test_message
 
 # Binary Commands
 
