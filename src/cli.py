@@ -52,8 +52,8 @@ def post(last, since, until, style, output):
     response = OpenAILLM(api_key=api_key).generate(
         prompt=post_prompt.substitute(commits=commits, style=style_content)
     )
-    click.echo(f"\n📝 Generated Content:\n{response}")
     pyperclip.copy(response)
+    click.echo(f"\n📝 Generated Content:\n{response}")
     click.echo("\n📋 Content copied to clipboard!")
 
     output_file = output if output else "gitscribe_output.txt"
