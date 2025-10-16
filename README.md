@@ -55,6 +55,17 @@ Remove-Item "$env:USERPROFILE\gitscribe.exe"
 # Or remove from wherever you placed it in your PATH
 ```
 
+## Issues and Bug Reports
+
+If you encounter any issues, bugs, or have feature requests, please report them on our [GitHub Issues page](https://github.com/FayZ676/commit2content/issues).
+
+When submitting an issue, please include:
+
+- A clear description of the problem or feature request
+- Steps to reproduce (for bugs)
+- Your operating system and GitScribe version
+- Any relevant error messages or logs
+
 ## Development
 
 ### Setup
