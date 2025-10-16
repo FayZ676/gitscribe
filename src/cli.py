@@ -1,4 +1,5 @@
 import click
+import pyperclip
 
 from src.config import require_api_key, set_api_key, prompt_for_openai_api_key
 from src.llm import OpenAILLM
@@ -52,6 +53,8 @@ def post(last, since, until, style, output):
         prompt=post_prompt.substitute(commits=commits, style=style_content)
     )
     click.echo(f"\n📝 Generated Content:\n{response}")
+    pyperclip.copy(response)
+    click.echo("\n📋 Content copied to clipboard!")
 
     output_file = output if output else "gitscribe_output.txt"
     save_content_to_file(response, output_file)
@@ -80,6 +83,13 @@ def commit(style):
         prompt=commit_prompt.substitute(diff=diff, style=style_content)
     )
     click.echo(f"\n✅ Generated Commit Message:\n{response}")
+
+    # Copy to clipboard
+    try:
+        pyperclip.copy(response)
+        click.echo("\n📋 Commit message copied to clipboard!")
+    except Exception as e:
+        click.echo(f"\n⚠️  Could not copy to clipboard: {e}")
 
 
 if __name__ == "__main__":
