@@ -10,9 +10,7 @@ from src.validators import validate_value_type, validate_date_string_format
 def build_git_log_command(last, since, until):
     """Build git log command with optional filters."""
     cmd = ["git", "log", "--oneline"]
-
-    if last is not None and validate_value_type(value=last, accept_type=int):
-        cmd.extend(["-n", str(last)])
+    has_date_filter = since is not None or until is not None
 
     if since is not None and validate_date_string_format(
         value=since, accept_format="%Y-%m-%d"
@@ -23,6 +21,13 @@ def build_git_log_command(last, since, until):
         value=until, accept_format="%Y-%m-%d"
     ):
         cmd.extend([f"--until={until}"])
+
+    if (
+        not has_date_filter
+        and last is not None
+        and validate_value_type(value=last, accept_type=int)
+    ):
+        cmd.extend(["-n", str(last)])
 
     return cmd
 
