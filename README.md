@@ -4,7 +4,56 @@ Transform your git history into shareable content for documentation, marketing, 
 
 ## Installation
 
-For installation instructions, see the [Releases page](https://github.com/FayZ676/gitscribe-releases/releases/latest).
+### macOS
+
+```bash
+curl -L https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-macos -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
+```
+
+### Linux
+
+```bash
+curl -L https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-linux -o /tmp/gitscribe && chmod +x /tmp/gitscribe && sudo mv /tmp/gitscribe /usr/local/bin/
+```
+
+### Windows (PowerShell)
+
+```powershell
+Invoke-WebRequest -Uri "https://github.com/FayZ676/commit2content/releases/latest/download/gitscribe-windows.exe" -OutFile "$env:USERPROFILE\gitscribe.exe"
+# Then add to PATH or move to a directory in your PATH
+```
+
+### Manual Installation
+
+Download the appropriate binary for your platform from the [Releases page](https://github.com/FayZ676/commit2content/releases/latest), make it executable, and move it to a directory in your PATH.
+
+## Usage
+
+```bash
+# Get help
+gitscribe post --help
+
+# Generate content from last 5 commits
+gitscribe post --last 5
+
+# Generate content from specific commit range
+gitscribe post --from <commit-hash> --to <commit-hash>
+```
+
+## Uninstall
+
+### macOS/Linux
+
+```bash
+sudo rm /usr/local/bin/gitscribe
+```
+
+### Windows
+
+```powershell
+Remove-Item "$env:USERPROFILE\gitscribe.exe"
+# Or remove from wherever you placed it in your PATH
+```
 
 ## Development
 
@@ -39,18 +88,3 @@ make build_binary
 # Install locally (optional)
 make install_binary
 ```
-
-## Creating a Release
-
-To create a new release with automated binary builds:
-
-1. Update version in your code if needed
-2. Create and push a version tag:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-3. GitHub Actions will automatically:
-   - Build binaries for macOS, Linux, and Windows
-   - Create a GitHub Release in the [public releases repo](https://github.com/FayZ676/gitscribe-releases)
-   - Attach all binaries to the release
