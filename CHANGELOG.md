@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Integrated GPT-5 model for enhanced capabilities.
+
+### Changed
+
+- Refined commit prompt instructions and updated style guide for improved clarity and consistency.
+
+## [v0.1.0] - 2025-10-16
+
+### Added
+
 - Ability to copy generated content directly to the clipboard via `pyperclip`.
 - Instructions on how to report issues and bugs.
 
