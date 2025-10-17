@@ -7,7 +7,7 @@ class OpenAILLM:
 
     def generate(self, prompt: str):
         response = self.client.responses.create(
-            model="gpt-4.1",
+            model="gpt-5",
             input=prompt,
         )
         return str(response.output[0].content[0].text)  # type: ignore

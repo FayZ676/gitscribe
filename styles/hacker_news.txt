@@ -1,0 +1,85 @@
+	
+Hi HN! I'm Nick from Inkeep. We built an agent builder with true 2-way sync between code and a drag-and-drop visual editor, so devs and non-devs can collaborate on the same agents. Here’s a demo video: https://go.inkeep.com/video.
+As a developer, the flow is: 1) Build AI Chat Assistants or AI Workflows with the TypeScript SDK 2) Run `inkeep push` from your CLI to publish 3)Edit agents in the visual builder (or hand off to non-technical teams) 4) Run `inkeep pull to edit in code again.
+
+We built this because we wanted the accessibility of no-code workflow builders (n8n, Zapier), but the flexibility and devex of code-based agent frameworks (LangGraph, Mastra). We also wanted first-class support for chat assistants with interactive UIs, not just workflows. OpenAI got close, but you can only do a one-time export from visual builder to code and there’s vendor lock-in.
+
+How I've used it: I bootstrapped a few agents for our marketing and sales teams, then was able to hand off so they can maintain and create their own agents. This has enabled us to adopt agents across technical and non-technical roles in our company on a single platform.
+
+To try it, here’s the quickstart: https://go.inkeep.com/quickstart.
+
+We leaned on open protocols to make it easy to use agents anywhere: An MCP endpoint, so agents can be used from Cursor/Claude/ChatGPT A Chat UI library with interactive elements you can customize in React An API endpoint compatible with the Vercel AI SDK `useChat` hook Support for Agent2Agent (A2A) so they work with other agent ecosystems
+
+We made some practical templates like a customer_support, deep_research, and docs_assistant. Deployment is easy with Vercel/Docker with a fair-code license and there's a traces UI and OTEL logs for observability.
+
+Under the hood, we went all-in on a multi-agent architecture. Agents are made up of LLMs, MCPs, and agent-to-agent relationships. We’ve found this approach to be easier to maintain and more flexible than traditional “if/else” approaches for complex workflows.
+
+The interoperability works because the SDK and visual builder share a common underlying representation, and the Inkeep CLI bridges it with a mix of LLMs and TypeScript syntactic sugar. Details in our docs: https://docs.inkeep.com.
+
+We’re open to ideas and contributions! And would love to hear about your experience building agents - what works, hasn’t worked, what’s promising?
+
+-- --
+
+	
+Hey HN! Arky is a markdown editor with a twist — instead of writing in a linear doc, you work on a 2D canvas where you can:
+• Place ideas anywhere spatially
+
+• Organize them into hierarchy with drag & drop
+
+• See the full document structure at a glance
+
+• AI writes contextually — drag & drop responses anywhere on canvas
+
+More info: https://arky.so/
+
+Try it: https://app.arky.so/ (Access codes are in the comment below!)
+
+Quick demo(60s): https://youtu.be/Nxsr5Ag2vEM?si=g6nKheRWWNuaLTe8
+
+Would love to hear your thoughts!
+
+-- --
+
+	
+I started working on Halloy back in 2022, with the goal of giving something back to the community I’ve been a part of for the past two decades. I wanted to create a modern, multi-platform IRC client written in Rust.
+Three years later, I’ve made new friends who have become core contributors, and there are now over 200 people idling in our #halloy channel on Libera.
+
+My hope is that this client will outlive me and that IRC will live on.
+
+-- --
+
+	
+Hey HN! Built this because I was tired of waiting hours for transcription services and didn't want to upload sensitive recordings to the cloud.
+  Real metrics from my M1 Max: 4.5hr video file transcribed in 3 minutes 32
+  seconds. Works completely offline.
+
+   First 5 HN users who click the button on the page get it free. Literally promo code straight to the app sore  
+
+
+  Key differences vs Rev/Otter:
+  - No 2-hour file limits (handles any length)
+  - Timecodes stay accurate on long files (no drift from chunking)
+  - Supports MP3, WAV, MP4, MOV, M4A, FLAC
+  - Exports to SRT, VTT, JSON, PDF, DOCX, CSV, Markdown
+
+  Built for macOS. Happy to answer questions!
+
+-- --
+
+	
+I built Trott out of frustration with my own “Saved” folders on Instagram and YouTube. I’d save reels and shorts—workout tips, recipes, travel spots—thinking I’d find them again later. But, like most people, I ended up with a black hole of unsorted videos: no search, no filters, and if I ever did find the right video again, I’d have to dig through the whole thing just to get that one detail I needed.
+When I tried looking for solutions, I found only genre-specific apps or tools that demanded manual uploads or new workflows. None felt like they understood how real users behave or save content. So I decided to build Trott.
+
+What makes Trott different?
+
+You can share any Instagram Reel or YouTube Short (TikTok support launches next week) to Trott, straight from your phone’s native share menu—no manual uploads.
+
+Trott uses AI to extract relevant info automatically (ingredients, places, products, etc.) and sorts everything for you.
+
+It’s fully searchable with natural language. Just type something like “that Kyoto café from Instagram” and Trott finds it.
+
+For travel videos, it can even produce Google Maps routes from extracted locations.
+
+App Store: https://apps.apple.com/in/app/trott/id6751728352 Play Store: https://play.google.com/store/apps/details?id=in.hattimatiml...
+
+I’d love to hear how you organize your own saved content—or if you’ve just given up and let it pile up like I used to. Open to all questions, feedback, and bug reports. Happy to discuss the tech details behind Trott if you’re interested!

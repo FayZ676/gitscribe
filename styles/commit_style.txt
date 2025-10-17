@@ -1,8 +1,7 @@
 Follow conventional commit format:
 - Use imperative mood (e.g., "Add feature" not "Added feature")
-- Keep the first line concise (50 chars or less)
+- Keep the message one line in length concise (10-20 words)
 - Start with a type prefix: feat:, fix:, docs:, style:, refactor:, test:, chore:
-- If needed, add a more detailed explanation after a blank line
 
 Examples:
 feat: Add user authentication with OAuth2
