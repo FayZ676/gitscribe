@@ -1,6 +1,6 @@
 # GitScribe
 
-Transform your git history into shareable content for documentation, marketing, and more.
+You love shipping. You hate writing about it. GitScribe turns your commit history into posts, release notes, and updates—so you can keep building.
 
 📖 **[See USAGE.md for usage details and examples](USAGE.md)**
 
