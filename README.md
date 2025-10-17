@@ -2,6 +2,8 @@
 
 Transform your git history into shareable content for documentation, marketing, and more.
 
+📖 **[See USAGE.md for usage details and examples](USAGE.md)**
+
 ## Installation
 
 ### macOS
@@ -29,35 +31,54 @@ Download the appropriate binary for your platform from the [Releases page](https
 
 ## Usage
 
+GitScribe provides two main commands:
+
+- `gitscribe configure` - Set up your OpenAI API key
+- `gitscribe post` - Generate shareable content from git commits
+- `gitscribe commit` - Generate commit messages from git diff
+
+📖 **[See USAGE.md for usage details and examples](USAGE.md)**
+
+### Quick Start
+
 ```bash
-# Get help
-gitscribe post --help
+# Configure your API key (first time only)
+gitscribe configure
 
-# Generate content from last 5 commits
+# Generate content from your last 5 commits
 gitscribe post --last 5
-
-# Generate content from specific commit range
-gitscribe post --from <commit-hash> --to <commit-hash>
 ```
 
 ## Uninstall
 
-### macOS/Linux
+### Binary Installation
+
+If you installed using the binary installation method:
+
+**macOS/Linux:**
 
 ```bash
 sudo rm /usr/local/bin/gitscribe
 ```
 
-### Windows
+**Windows:**
 
 ```powershell
 Remove-Item "$env:USERPROFILE\gitscribe.exe"
 # Or remove from wherever you placed it in your PATH
 ```
 
+### Development Installation
+
+If you installed locally during development:
+
+```bash
+make uninstall_binary
+```
+
 ## Issues and Bug Reports
 
-If you encounter any issues, bugs, or have feature requests, please report them on our [GitHub Issues page](https://github.com/FayZ676/commit2content/issues).
+If you encounter any issues, bugs, or have feature requests, please report them on our [GitHub Issues page](https://github.com/FayZ676/gitscribe/issues).
 
 When submitting an issue, please include:
 
@@ -68,34 +89,12 @@ When submitting an issue, please include:
 
 ## Development
 
-### Setup
+For detailed development commands, see the `Makefile` in the project root. Key commands include:
 
-```bash
-# Clone the repository
-git clone https://github.com/FayZ676/gitscribe.git
-cd gitscribe
+- `make install` - Set up development environment
+- `make test_all` - Run all tests
+- `make build_binary` - Build the executable
+- `make install_binary` - Install binary locally
+- `make uninstall_binary` - Remove installed binary
 
-# Create and activate virtual environment and install dependencies
-make install
-```
-
-### Running Locally
-
-```bash
-# Run the CLI directly
-python cli.py --help
-python cli.py post --last 5
-```
-
-### Building
-
-```bash
-# Build the binary
-make build_binary
-
-# Test the binary
-./dist/gitscribe post --last 5
-
-# Install locally (optional)
-make install_binary
-```
+Run `make` without arguments to see all available targets.
