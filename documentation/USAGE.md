@@ -1,12 +1,12 @@
 # GitScribe Usage Examples
 
-This document provides comprehensive examples of how to use GitScribe to transform your git history into shareable content.
+This document provides examples of how to use GitScribe to transform your git history into posts, blogs, release notes, and more.
 
 ## Prerequisites
 
 Before using GitScribe, make sure you have:
 
-1. Installed GitScribe (see [README.md](README.md) for installation instructions)
+1. Installed GitScribe (see [INSTALL.md](INSTALL.md) for installation instructions)
 2. Configured your OpenAI API key: `gitscribe configure`
 
 ## Basic Usage
@@ -23,16 +23,11 @@ gitscribe commit --help
 gitscribe configure --help
 ```
 
-### Configuration
-
-```bash
-# Configure your OpenAI API key (required for first use)
-gitscribe configure
-```
-
 ## Post Generation Examples
 
-The `post` command generates shareable content from your git commits.
+The `post` command generates posts, blogs, release notes, and more from your commit history.
+
+> **💡 Generated content is automatically copied to your clipboard for easy sharing and pasting.**
 
 ### Basic Examples
 
@@ -80,11 +75,11 @@ gitscribe post --last 5
 gitscribe post --last 5 --output my_update.md
 ```
 
-**Tip 💡: Generated content is automatically copied to your clipboard for easy sharing and pasting.**
-
 ## Commit Message Generation Examples
 
 The `commit` command generates commit messages from your current git diff.
+
+> **💡 Generated content is automatically copied to your clipboard for easy sharing and pasting.**
 
 ### Basic Usage
 
@@ -98,7 +93,7 @@ gitscribe commit --style styles/commit_style.txt
 
 ## Style Files
 
-GitScribe comes with several built-in style files:
+Style files tell GitScribe how to format and present the content it generates. GitScribe comes with several built-in style files for various types of content:
 
 - `styles/post_style.txt` - For general post content
 - `styles/commit_style.txt` - For commit messages
@@ -106,9 +101,9 @@ GitScribe comes with several built-in style files:
 
 ### Creating Custom Styles
 
-You can create your own style files to customize the output. Style files contain instructions for the AI on how to format and present the content.
+You can create your own style files to customize the output.
 
-Example custom style file (`my_style.txt`):
+Example custom style file (`blog_style.txt`):
 
 ```
 Generate content in a professional blog post format with:
@@ -122,11 +117,10 @@ Generate content in a professional blog post format with:
 Then use it:
 
 ```bash
-gitscribe post --last 5 --style my_style.txt
+gitscribe post --last 5 --style blog_style.txt
 ```
 
 ## Tips and Best Practices
 
 1. **Commit Quality**: The better your commit messages, the better the generated content. Use the `gitscribe commit` command to easily generate consistent, high quality messages.
 2. **Style Consistency**: Use consistent style files across your project
-3. **Review Output**: Always review and edit the generated content before publishing

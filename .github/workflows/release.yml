@@ -83,4 +83,4 @@ jobs:
             artifacts/gitscribe-windows.exe/gitscribe-windows.exe
           draft: false
           prerelease: false
-          body_path: CHANGELOG.md
+          body_path: documentation/CHANGELOG.md
