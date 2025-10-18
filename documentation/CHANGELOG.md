@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.1] - 2025-10-16
+
+### Changed
+
+- Moved installation, usage, changelog, and development docs to the documentation/ directory; updated README links and workflow paths.
+- Revised the introduction to be more concise and punchy.
+
+### Removed
+
+- Removed the install.sh installer script and related installation logic.
+
+### Fixed
+
+- Gracefully handle empty LLM responses in post/commit flows; standardized clipboard behavior.
+- Safely extract message text from OpenAI responses, handling varying types and missing content.
+
+## [v0.2.0] - 2025-10-16
+
 ### Added
 
 - Integrated GPT-5 model for enhanced capabilities.
