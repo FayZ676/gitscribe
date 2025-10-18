@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.2.2] - 2025-10-18
+
+### Fixed
+
+- --style is now optional; the CLI gracefully warns when a specified style file is missing instead of failing.
+
 ## [v0.2.1] - 2025-10-16
 
 ### Changed
