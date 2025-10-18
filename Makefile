@@ -40,5 +40,6 @@ install_binary: ## Install binary to system PATH
 	sudo cp dist/gitscribe /usr/local/bin/
 	sudo chmod +x /usr/local/bin/gitscribe 	
 
-uninstall_binary: ## Remove binary from system PATH
+uninstall: ## Remove binary from system PATH and configuration
 	sudo rm -f /usr/local/bin/gitscribe
+	rm -rf ~/.gitscribe

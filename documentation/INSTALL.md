@@ -43,12 +43,14 @@ If you installed using the binary installation method:
 
 ```bash
 sudo rm /usr/local/bin/gitscribe
+rm -rf ~/.gitscribe
 ```
 
 **Windows:**
 
 ```powershell
 Remove-Item "$env:USERPROFILE\gitscribe.exe"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.gitscribe"
 # Or remove from wherever you placed it in your PATH
 ```
 
@@ -57,5 +59,7 @@ Remove-Item "$env:USERPROFILE\gitscribe.exe"
 If you installed locally during development:
 
 ```bash
-make uninstall_binary
+make uninstall
 ```
+
+**Note:** These commands will permanently delete your stored OpenAI API key and any other GitScribe configuration. You'll need to reconfigure if you reinstall GitScribe later.
