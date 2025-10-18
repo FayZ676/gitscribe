@@ -36,7 +36,7 @@ test_binary: ## Test the built binary
 	./dist/gitscribe post --last 1
 	./dist/gitscribe commit
 
-install_binary: ## Install binary to system PATH
+install_binary: build_binary ## Install binary to system PATH
 	sudo cp dist/gitscribe /usr/local/bin/
 	sudo chmod +x /usr/local/bin/gitscribe 	
 
