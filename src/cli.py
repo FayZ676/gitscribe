@@ -26,14 +26,12 @@ def configure():
     api_key = prompt_for_openai_api_key()
     set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
     
-    # Prompt for default commit style file
     commit_style_path = prompt_for_style_file("commit")
     if commit_style_path:
         ensure_style_file_exists(commit_style_path)
         set_default_style_path("commit", commit_style_path)
         click.echo(f"✅ Default commit style file set to: {commit_style_path}")
     
-    # Prompt for default post style file
     post_style_path = prompt_for_style_file("post")
     if post_style_path:
         ensure_style_file_exists(post_style_path)
@@ -64,7 +62,6 @@ def post(last, since, until, style, output):
     cmd = build_git_log_command(last, since, until)
     commits = run_git_command(cmd)
     
-    # Use default style file from config if no style option provided
     style_file = style
     if not style_file:
         style_file = get_default_style_path("post")
@@ -111,7 +108,6 @@ def commit(style):
 
     click.echo("📊 Analyzing changes...")
     
-    # Use default style file from config if no style option provided
     style_file = style
     if not style_file:
         style_file = get_default_style_path("commit")
