@@ -52,6 +52,11 @@ def post(last, since, until, style, output):
     response = OpenAILLM(api_key=api_key).generate(
         prompt=post_prompt.substitute(commits=commits, style=style_content)
     )
+
+    if not response:
+        click.echo("❌ Failed to generate content")
+        return
+
     pyperclip.copy(response)
     click.echo(f"\n📝 Generated Content:\n{response}")
     click.echo("\n📋 Content copied to clipboard!")
@@ -82,14 +87,14 @@ def commit(style):
     response = OpenAILLM(api_key=api_key).generate(
         prompt=commit_prompt.substitute(diff=diff, style=style_content)
     )
-    click.echo(f"\n✅ Generated Commit Message:\n{response}")
 
-    # Copy to clipboard
-    try:
-        pyperclip.copy(response)
-        click.echo("\n📋 Commit message copied to clipboard!")
-    except Exception as e:
-        click.echo(f"\n⚠️  Could not copy to clipboard: {e}")
+    if not response:
+        click.echo("❌ Failed to generate content")
+        return
+
+    pyperclip.copy(response)
+    click.echo(f"\n✅ Generated Commit Message:\n{response}")
+    click.echo("\n📋 Commit message copied to clipboard!")
 
 
 if __name__ == "__main__":
