@@ -29,8 +29,8 @@ def configure():
 @click.option("--until", default=None, help="Include commits until date (YYYY-MM-DD)")
 @click.option(
     "--style",
-    default="styles/post_style.txt",
-    help="Style file for the LLM to reference when generating post content (default: post_style.txt)",
+    default=None,
+    help="Style file for the LLM to reference when generating post content (optional)",
 )
 @click.option(
     "--output",
@@ -68,8 +68,8 @@ def post(last, since, until, style, output):
 @gitscribe.command()
 @click.option(
     "--style",
-    default="styles/commit_style.txt",
-    help="Style file for the LLM to reference when generating commit messages (default: commit_style.txt)",
+    default=None,
+    help="Style file for the LLM to reference when generating commit messages (optional)",
 )
 def commit(style):
     """Generate a commit message from git diff."""

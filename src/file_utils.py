@@ -1,17 +1,19 @@
 """File I/O utilities for GitScribe."""
 
-import sys
 import click
 
 
-def get_style(file_path: str) -> str:
-    """Get style content from file. Returns empty string if file doesn't exist."""
+def get_style(file_path: str | None) -> str:
+    """Get style content from file. Returns empty string if no file provided or file doesn't exist."""
+    if not file_path:
+        return ""
+
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
-        click.echo(f"❌ Style file '{file_path}' not found.", err=True)
-        sys.exit(1)
+        click.echo(f"⚠️  Style file '{file_path}' not found.", err=True)
+        return ""
 
 
 def save_content_to_file(content: str, file_path: str) -> None:
