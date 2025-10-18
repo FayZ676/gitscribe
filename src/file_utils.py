@@ -1,6 +1,7 @@
 """File I/O utilities for GitScribe."""
 
 import click
+from pathlib import Path
 
 
 def get_style(file_path: str | None) -> str:
@@ -21,3 +22,17 @@ def save_content_to_file(content: str, file_path: str) -> None:
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(content)
     click.echo(f"\n✅ Content saved to: {file_path}")
+
+
+def ensure_style_file_exists(file_path: str) -> None:
+    """Create an empty style file if it doesn't exist."""
+    if not file_path:
+        return
+    
+    path = Path(file_path)
+    if not path.exists():
+        # Create parent directories if they don't exist
+        path.parent.mkdir(parents=True, exist_ok=True)
+        # Create empty file
+        path.touch()
+        click.echo(f"✅ Created empty style file: {file_path}")
