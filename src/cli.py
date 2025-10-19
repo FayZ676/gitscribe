@@ -11,7 +11,12 @@ from src.config import (
 )
 from src.llm import OpenAILLM
 from src.prompts import post_prompt, commit_prompt
-from src.git_utils import build_git_log_command, run_git_command, get_git_diff
+from src.git_utils import (
+    build_git_log_command,
+    run_git_command,
+    get_git_diff,
+    commit_changes,
+)
 from src.file_utils import get_style, save_content_to_file, ensure_style_file_exists
 
 
@@ -25,19 +30,19 @@ def configure():
     """Configure GitScribe settings (API keys, etc.)."""
     api_key = prompt_for_openai_api_key()
     set_api_key(api_key=api_key, key_name="OPENAI_API_KEY")
-    
+
     commit_style_path = prompt_for_style_file("commit")
     if commit_style_path:
         ensure_style_file_exists(commit_style_path)
         set_default_style_path("commit", commit_style_path)
         click.echo(f"✅ Default commit style file set to: {commit_style_path}")
-    
+
     post_style_path = prompt_for_style_file("post")
     if post_style_path:
         ensure_style_file_exists(post_style_path)
         set_default_style_path("post", post_style_path)
         click.echo(f"✅ Default post style file set to: {post_style_path}")
-    
+
     click.echo(
         "\n✅ Configuration complete! You can now use the commands `gitscribe post` and `gitscribe commit`."
     )
@@ -61,11 +66,11 @@ def post(last, since, until, style, output):
     """Generate post content from git commits."""
     cmd = build_git_log_command(last, since, until)
     commits = run_git_command(cmd)
-    
+
     style_file = style
     if not style_file:
         style_file = get_default_style_path("post")
-    
+
     style_content = get_style(file_path=style_file)
 
     if not commits:
@@ -102,16 +107,16 @@ def commit(style):
 
     if not diff:
         click.echo(
-            "❌ No changes found. Make some changes or stage them with 'git add' first."
+            "❌ No staged changes found. Stage your changes with 'git add' first."
         )
         return
 
     click.echo("📊 Analyzing changes...")
-    
+
     style_file = style
     if not style_file:
         style_file = get_default_style_path("commit")
-    
+
     style_content = get_style(file_path=style_file)
     api_key = require_api_key("OPENAI_API_KEY")
     response = OpenAILLM(api_key=api_key).generate(
@@ -125,6 +130,15 @@ def commit(style):
     pyperclip.copy(response)
     click.echo(f"\n✅ Generated Commit Message:\n{response}")
     click.echo("\n📋 Commit message copied to clipboard!")
+
+    # Prompt user to commit
+    if click.confirm("\n💬 Do you want to commit these changes with this message?"):
+        if commit_changes(response):
+            click.echo("✅ Changes committed successfully!")
+        else:
+            click.echo("❌ Failed to commit changes")
+    else:
+        click.echo("⏭️  Commit skipped. You can commit manually later.")
 
 
 if __name__ == "__main__":
