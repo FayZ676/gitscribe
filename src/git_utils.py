@@ -56,10 +56,14 @@ def run_git_command(cmd) -> str:
 
 
 def get_git_diff() -> str:
-    """Get git diff of staged changes, or all changes if nothing is staged."""
-    staged_diff = run_git_command(["git", "diff", "--cached"])
+    """Get git diff of staged changes only."""
+    return run_git_command(["git", "diff", "--cached"])
 
-    if staged_diff:
-        return staged_diff
 
-    return run_git_command(["git", "diff"])
+def commit_changes(message: str) -> bool:
+    """Commit staged changes with the given message."""
+    try:
+        run_git_command(["git", "commit", "-m", message])
+        return True
+    except Exception:
+        return False

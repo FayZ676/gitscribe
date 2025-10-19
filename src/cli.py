@@ -4,7 +4,7 @@ import pyperclip
 from src.config import require_api_key, set_api_key, prompt_for_openai_api_key
 from src.llm import OpenAILLM
 from src.prompts import post_prompt, commit_prompt
-from src.git_utils import build_git_log_command, run_git_command, get_git_diff
+from src.git_utils import build_git_log_command, run_git_command, get_git_diff, commit_changes
 from src.file_utils import get_style, save_content_to_file
 
 
@@ -77,7 +77,7 @@ def commit(style):
 
     if not diff:
         click.echo(
-            "❌ No changes found. Make some changes or stage them with 'git add' first."
+            "❌ No staged changes found. Stage your changes with 'git add' first."
         )
         return
 
@@ -95,6 +95,15 @@ def commit(style):
     pyperclip.copy(response)
     click.echo(f"\n✅ Generated Commit Message:\n{response}")
     click.echo("\n📋 Commit message copied to clipboard!")
+
+    # Prompt user to commit
+    if click.confirm("\n💬 Do you want to commit these changes with this message?"):
+        if commit_changes(response):
+            click.echo("✅ Changes committed successfully!")
+        else:
+            click.echo("❌ Failed to commit changes")
+    else:
+        click.echo("⏭️  Commit skipped. You can commit manually later.")
 
 
 if __name__ == "__main__":
