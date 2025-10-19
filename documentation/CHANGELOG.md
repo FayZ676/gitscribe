@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.3.0] - 2025-10-18
+
+### Added
+
+- Support for a default style file configuration.
+
+### Changed
+
+- Documentation now describes the default style file configuration flow.
+- Replaced the uninstall_binary target with uninstall, which also removes configuration; updated uninstall docs and warnings.
+
+### Removed
+
+- Unnecessary documentation content.
+- Obsolete code comments.
+- Deprecated uninstall_binary target.
+
+### Fixed
+
+- Ensure the binary is built before installation by adding build_binary as a dependency of the install target.
+
 ## [v0.2.2] - 2025-10-18
 
 ### Fixed
