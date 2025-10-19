@@ -10,7 +10,7 @@ You love shipping. You hate writing about it. GitScribe turns your commit histor
 
 GitScribe provides three commands:
 
-- `gitscribe configure` **(REQUIRED)** - Set up your OpenAI API key
+- `gitscribe configure` **(REQUIRED)** - Set up your OpenAI API key and default style files
 - `gitscribe post` - Generate shareable content from git commits
 - `gitscribe commit` - Generate commit messages from git diff
 
