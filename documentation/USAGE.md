@@ -39,40 +39,6 @@ This command will guide you through three setup steps:
 2. **Default Commit Style File**: Specify the path to your default style file for commit messages
 3. **Default Post Style File**: Specify the path to your default style file for post generation
 
-#### Example Configuration Flow
-
-```bash
-$ gitscribe configure
-
-🔑 OpenAI API Key Required
-Enter your OpenAI API key: ********
-
-📄 Default Commit Style File
-Specify the path to your default commit style file.
-This file will be used when you run 'gitscribe commit' without the --style option.
-If the file doesn't exist, GitScribe will create it as an empty file.
-
-Enter the path to your default commit style file: ~/.gitscribe/commit_style.txt
-✅ Created empty style file: ~/.gitscribe/commit_style.txt
-✅ Default commit style file set to: ~/.gitscribe/commit_style.txt
-
-📄 Default Post Style File
-Specify the path to your default post style file.
-This file will be used when you run 'gitscribe post' without the --style option.
-If the file doesn't exist, GitScribe will create it as an empty file.
-
-Enter the path to your default post style file: ~/.gitscribe/post_style.txt
-✅ Created empty style file: ~/.gitscribe/post_style.txt
-✅ Default post style file set to: ~/.gitscribe/post_style.txt
-
-✅ Configuration complete!
-```
-
-**What happens during configuration:**
-- If the specified style files don't exist, GitScribe creates them as empty files
-- You can edit these files later to customize your style preferences
-- The paths are stored in `~/.gitscribe/config.json` along with your API key
-
 **Updating Configuration:**
 
 You can update your default style files at any time by re-running:
@@ -82,8 +48,6 @@ gitscribe configure
 ```
 
 This allows you to switch between different style preferences without editing the config file manually.
-
-> **💡 Tip**: Leave the style file paths empty during configuration if you prefer to always specify styles manually with the `--style` option.
 
 ## Post Generation Examples
 
@@ -127,9 +91,6 @@ gitscribe post --last 5
 
 # Override default with a different style file
 gitscribe post --last 5 --style styles/release_style.txt
-
-# Use one of the built-in styles
-gitscribe post --last 5 --style styles/hacker_news_style.txt
 ```
 
 ### Output Options
@@ -174,6 +135,7 @@ During the initial `gitscribe configure` setup, you specify default style files 
 - **Default Post Style**: Used by `gitscribe post` when no `--style` option is provided
 
 **Benefits of default style files:**
+
 - No need to specify `--style` every time you run a command
 - Ensures consistent style across all your commits and posts
 - Easy to update by re-running `gitscribe configure`
@@ -187,8 +149,6 @@ GitScribe comes with several built-in style files for various types of content:
 - `styles/commit_style.txt` - For commit messages
 - `styles/release_style.txt` - For release notes and announcements
 - `styles/hacker_news_style.txt` - For Hacker News-style posts
-
-You can use these as your defaults or as templates for creating custom styles.
 
 ### Creating Custom Styles
 
@@ -217,6 +177,7 @@ gitscribe post --last 5 --style blog_style.txt
 ```
 
 **Tips for creating effective style files:**
+
 - Be specific about formatting preferences (headings, lists, code blocks, etc.)
 - Specify the tone (formal, casual, technical, etc.)
 - Include examples of desired output if helpful
