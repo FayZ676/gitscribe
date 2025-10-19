@@ -33,6 +33,16 @@ gitscribe --help
 
 If the command prints the help text, you’re good to go.
 
+
+## Next Steps
+
+After installation, run the configuration command to set up your OpenAI API key and default style files:
+
+```bash
+gitscribe configure
+```
+
+See [USAGE.md](USAGE.md) for detailed configuration instructions and usage examples.
 ## Uninstall
 
 ### Binary Installation
@@ -62,4 +72,4 @@ If you installed locally during development:
 make uninstall
 ```
 
-**Note:** These commands will permanently delete your stored OpenAI API key and any other GitScribe configuration. You'll need to reconfigure if you reinstall GitScribe later.
+**Note:** These commands will permanently delete your stored OpenAI API key, default style file configuration, and any other GitScribe settings. You'll need to reconfigure if you reinstall GitScribe later.

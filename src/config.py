@@ -74,3 +74,37 @@ def prompt_for_openai_api_key() -> str:
 
     api_key = click.prompt("\nEnter your OpenAI API key", hide_input=True)
     return api_key.strip()
+
+
+def get_default_style_path(style_type: str) -> str | None:
+    """Get the default style file path for a given style type (commit or post)."""
+    config = load_config()
+    key = f"default_{style_type}_style"
+    return config.get(key)
+
+
+def set_default_style_path(style_type: str, file_path: str) -> None:
+    """Save default style file path to config."""
+    config = load_config()
+    key = f"default_{style_type}_style"
+    config[key] = file_path
+    save_config(config)
+
+
+def prompt_for_style_file(style_type: str) -> str:
+    """Interactively prompt user for style file path."""
+    click.echo(f"\n📄 Default {style_type.capitalize()} Style File")
+    click.echo(
+        f"\nSpecify the path to your default {style_type} style file."
+    )
+    click.echo(
+        f"This file will be used when you run 'gitscribe {style_type}' without the --style option."
+    )
+    click.echo("If the file doesn't exist, GitScribe will create it as an empty file.")
+    
+    file_path = click.prompt(
+        f"\nEnter the path to your default {style_type} style file",
+        default="",
+        show_default=False
+    )
+    return file_path.strip()
